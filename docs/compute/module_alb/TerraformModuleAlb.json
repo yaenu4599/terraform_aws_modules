@@ -1,0 +1,57 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ElbCreate",
+            "Effect": "Allow",
+            "Action": [
+                "elasticloadbalancing:CreateLoadBalancer",
+                "elasticloadbalancing:CreateLoadBalancerListeners",
+                "elasticloadbalancing:CreateLoadBalancerPolicy",
+                "elasticloadbalancing:DeleteListener",
+                "elasticloadbalancing:ModifyListener",
+                "elasticloadbalancing:DeleteTargetGroup",
+                "elasticloadbalancing:CreateTargetGroup",
+                "elasticloadbalancing:CreateListener"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ElbModifyOrDelete",
+            "Effect": "Allow",
+            "Action": [
+                "elasticloadbalancing:ModifyLoadBalancerAttributes",
+                "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+                "elasticloadbalancing:AttachLoadBalancerToSubnets",
+                "elasticloadbalancing:DeleteLoadBalancer",
+                "elasticloadbalancing:DeleteLoadBalancerPolicy",
+                "elasticloadbalancing:DetachLoadBalancerFromSubnets",
+                "elasticloadbalancing:AddTags",
+                "elasticloadbalancing:RemoveTags",
+                "elasticloadbalancing:ModifyTargetGroupAttributes",
+                "elasticloadbalancing:ModifyTargetGroup"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/ManagedBy": "terraform"
+                }
+            }
+        },
+        {
+            "Sid": "ElbDescribe",
+            "Effect": "Allow",
+            "Action": [
+                "elasticloadbalancing:DescribeLoadBalancers",
+                "elasticloadbalancing:DescribeLoadBalancerAttributes",
+                "elasticloadbalancing:DescribeTags",
+                "elasticloadbalancing:DescribeTargetGroupAttributes",
+                "elasticloadbalancing:DescribeTargetGroups",
+                "elasticloadbalancing:DescribeTargetHealth",
+                "elasticloadbalancing:DescribeListenerAttributes",
+                "elasticloadbalancing:DescribeListeners"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

@@ -21,7 +21,7 @@ none
 
 #### permissions
 
-To use this module attache this policy [./docs/storage/module_s3/TerraformModuleS3.json](/docs/storage/module_s3/TerraformModuleS3.json) to your terraform iam user.
+To use this module attache this policy [/docs/storage/module_s3/TerraformModuleS3.json](/docs/storage/module_s3/TerraformModuleS3.json) to your terraform iam user.
 
 > *Note:* make sure when you change the name of the bucked that you also change the arn in the policy to match
 
@@ -29,7 +29,7 @@ To use this module attache this policy [./docs/storage/module_s3/TerraformModule
 
 #### others
 
-So that ec2 instances have access to the bucked add this policy to role and give it to the instance [./docs/storage/module_s3/%20S3AccessPolicy.json](/docs/storage/module_s3/%20S3AccessPolicy.json)
+So that ec2 instances have access to the bucked add this policy to role and give it to the instance [/docs/storage/module_s3/%20S3AccessPolicy.json](/docs/storage/module_s3/%20S3AccessPolicy.json)
 
 > *Note:* make sure when you change the name of the bucked that you also change the arn, in the policy, to match
 

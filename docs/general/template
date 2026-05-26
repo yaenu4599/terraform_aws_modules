@@ -1,4 +1,4 @@
-## modules/
+## modules/example
 
 
 
@@ -11,16 +11,17 @@
 
 ###  requirement
 
-
-
 #### modules
 
-
+|modules | folder | description | 
+|--------|--------|-------------|
+| | | |
 
 #### permissions
 
+To use this module attache this policy [/docs/example](/docs/example) to your terraform iam user.
 
-
+> **Note:** make sure that Managedby is eather "terraform" or you change that each permission uses the custom tag defined in Managedby, else it will not work
 #### others
 
 

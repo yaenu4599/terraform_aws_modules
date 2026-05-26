@@ -33,15 +33,15 @@ variable "azs" {
 # subnet_public_cidrs and subnet_private_cidrs must have the same number of entries as azs
 
 variable "subnet_public_cidrs" {
-  description = "cidr blocks to creat public subnets" # 
+  description = "cidr blocks to creat public subnets"
   type        = list(string)
-  default     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"] # 
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
 variable "subnet_private_cidrs" {
   description = "cidr blocks to creat private subnets"
   type        = list(string)
-  default     = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"] # 
+  default     = ["10.0.3.0/24", "10.0.4.0/24"]
 }
 
 # =============================================================================
@@ -75,6 +75,38 @@ variable "ami_id" {
   description = "ami id to create a instance"
   type        = string
   default     = "ami-08bdb1495db49a7f9"
+}
+
+# =============================================================================
+# module.asg
+# =============================================================================
+
+variable "max_size" {
+  description = "asg instance limit"
+  type        = number
+  default     = 2
+}
+
+variable "min_size" {
+  description = "asg min instance amount"
+  type        = number
+  default     = 2
+}
+
+variable "desired_capacity" {
+  description = "desired capacity to maintain by the asg"
+  type        = number
+  default     = 2
+}
+
+variable "instance_type_asg" {
+  description = "instance type the asg should create"
+  type        = string
+}
+
+variable "ami_asg_id" {
+  description = "ami id to create the instance"
+  type        = string
 }
 
 # =============================================================================

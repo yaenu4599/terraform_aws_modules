@@ -8,7 +8,7 @@ variable "common_tags" {
 }
 
 variable "environment" {
-  description = "root value for tagging"
+  description = "variable form the root module for correct tagging"
   type        = string
 }
 
@@ -16,32 +16,28 @@ variable "environment" {
 # input
 # =============================================================================
 
-variable "vpc_cidr" {
-  description = "root passed cidr"
+variable "vpc_id" {
+  description = "vpc import form the vpc module"
   type        = string
 }
 
-variable "azs" {
-  description = "az list passed form the root module"
+variable "security_group_id" {
+  description = "sg to assaign to the albs"
+  type        = string
+}
+
+variable "subnet_ids" {
+  description = "subnet ids to deploy the albs in, min 2 needed"
   type        = list(string)
-}
-
-variable "subnet_public_cidrs" {
-  description = "cidr blocks to create public subnets"
-  type = list(string)
-}
-
-variable "subnet_private_cidrs" {
-  description = "cidr blocks to create private subnets"
-  type = list(string)
 }
 
 # =============================================================================
 # optional input
 # =============================================================================
 
-variable "region" {
-  description = "used for the vpc endpoint to declair the region to use"
-  type        = string
-  default = "eu-central-1"
+variable "prevent_destroy" {
+  description = "prevents deletion, only allows deletion when false"
+  type = bool
+  default = false
 }
+

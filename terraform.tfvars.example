@@ -13,8 +13,8 @@ vpc_cidr = "10.0.0.0/16"
 azs      = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
 
 # subnet_public_cidrs and subnet_private_cidrs must have the same number of entries as azs
-subnet_public_cidrs  = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-subnet_private_cidrs = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
+subnet_public_cidrs  = ["10.0.1.0/24", "10.0.2.0/24"]
+subnet_private_cidrs = ["10.0.3.0/24", "10.0.4.0/24"]
 
 # =============================================================================
 # module.security_groups
@@ -30,7 +30,17 @@ instance_type = "t3.micro"
 ami_id        = "ami-08bdb1495db49a7f9"
 
 # =============================================================================
+# module.asg
+# =============================================================================
+
+max_size          = 3
+min_size          = 2
+desired_capacity  = 2
+instance_type_asg = "t3.micro"
+ami_asg_id        = "ami-08bdb1495db49a7f9"
+
+# =============================================================================
 # module.s3
 # =============================================================================
 
-bucket_name          = "my-cool-terraform-bucket-version-3"
+bucket_name = "my-cool-terraform-bucket-version-3"

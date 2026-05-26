@@ -31,6 +31,26 @@ resource "aws_internet_gateway" "main" {
 }
 
 # =============================================================================
+# vpc endpoint
+# =============================================================================
+
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id       = aws_vpc.main.id
+  service_name = "com.amazonaws.${var.region}.s3"
+
+  route_table_ids = concat(
+    [aws_route_table.public.id], 
+    aws_route_table.private[*].id
+    )
+
+  tags = merge(var.common_tags, 
+   { 
+    Name = "${var.region}-s3-vpc-enpoint"
+   }
+  )
+}
+
+# =============================================================================
 # nat gateway
 # =============================================================================
 
@@ -46,7 +66,7 @@ resource "aws_eip" "nat" {
 }
 
 resource "aws_nat_gateway" "main" {
-  count             = min(length(var.subnet_private_cidrs), length(var.azs))
+  count             = length(aws_eip.nat)
   allocation_id     = aws_eip.nat[count.index].id
   subnet_id         = aws_subnet.public[count.index].id
   connectivity_type = "public"
@@ -93,7 +113,6 @@ resource "aws_subnet" "private" {
     }
   )
 }
-
 
 # =============================================================================
 # routing tables

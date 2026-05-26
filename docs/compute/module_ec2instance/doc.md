@@ -27,12 +27,12 @@ module "ec2instance" {
 
 |modules | folder | description | 
 |--------|--------|-------------|
-| [vpc](/docs/networking/module_vpc/doc.md) | [./modules/vpc](./modules/vpc) | vpc to launche the security groups in |
-| [security groups](/docs/security/module_security_groups/doc.md) | [./modules/security_groups](./modules/security_groups) | private security group to launch the instance in |
+| [vpc](/docs/networking/module_vpc/doc.md) | [/modules/vpc](/modules/vpc) | vpc to provide network accessablity and basic structure |
+| [security groups](/docs/security/module_security_groups/doc.md) | [/modules/security_groups](/modules/security_groups) | private security group to launch the instance in |
 
 #### permissions
 
-To use this module attache this policy [./docs/compute/module_ec2instance/TerraformModuleEc2Instance.json](/docs/compute/module_ec2instance/TerraformModuleEc2Instance.json) to your terraform iam user.
+To use this module attache this policy [/docs/compute/module_ec2instance/TerraformModuleEc2Instance.json](/docs/compute/module_ec2instance/TerraformModuleEc2Instance.json) to your terraform iam user.
 
 > *Note:* even tho the keypair is not active, the permission already gives the permission required to create/delete the keypair and import the public key
 > **Note:** make sure that Managedby is eather "terraform" or you change that each permission uses the custom tag defined in Managedby, else it will not work

@@ -25,12 +25,12 @@ module "security_groups" {
 
 |modules | folder | description | 
 |--------|--------|-------------|
-| [vpc](/docs/networking/module_vpc/doc.md) | [./modules/vpc](./modules/vpc) | vpc to launche the security groups in |
+| [vpc](/docs/networking/module_vpc/doc.md) | [/modules/vpc](/modules/vpc) | vpc to launche the security groups in |
 
 
 #### permissions
 
-To use this module attache this policy [./docs/security/module_security_groups/TerraformModuleSg.json](/docs/security/module_security_groups/TerraformModuleSg.json) to your terraform iam user.
+To use this module attache this policy [/docs/security/module_security_groups/TerraformModuleSg.json](/docs/security/module_security_groups/TerraformModuleSg.json) to your terraform iam user.
 
 > **Note:** make sure that Managedby is eather "terraform" or you change that each permission uses the custom tag defined in Managedby, else it will not work
 
