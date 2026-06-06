@@ -1,10 +1,12 @@
 ## modules/security_groups
 
-Creates a public and private security group. 
+Creates a public, private security group and a mysql rds db security group. 
 
 The public security group is for instances in the public subnets and allows http(80), https(443) and optionally ssh(22) when var.allow_ssh has one or more cidr_blocks defined.
 
 The private security group is for instances in the private subnets and also allows http(80) and https(443) but both can only be accessed through a instance or Load balancer that uses the public security group.
+
+The rds mysql security group allows the port 3306(MySQL DB) and references the private subnet.
 
 ### usage
 
@@ -65,4 +67,4 @@ ssh_allowed_cidrs = []
 |------|-------------|
 | security_group_public_id | used to creat public instances |
 | security_group_private_id | used to creat private instances |
-
+| security_group_rds_mysql_id | used to create an rds mysql db sg for accessing the db | 
