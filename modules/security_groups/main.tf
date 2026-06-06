@@ -85,3 +85,28 @@ resource "aws_vpc_security_group_egress_rule" "private_outbound_rule" {
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1"
 }
+
+
+# =============================================================================
+# rds security group
+# =============================================================================
+
+resource "aws_security_group" "rds_mysql" {
+  name        = "${var.environment}-rds-mysql-sg"
+  description = "Security group for RDS MySQL instances"
+  vpc_id      = var.vpc_id
+
+  tags = merge(var.common_tags,
+    {
+      Name = "${var.environment}-rds-mysql-sg"
+    }
+  )
+}
+
+resource "aws_vpc_security_group_ingress_rule" "mysql_port" {
+  security_group_id            = aws_security_group.rds_mysql.id
+  referenced_security_group_id = aws_security_group.private.id
+  from_port                    = 3306 
+  ip_protocol                  = "tcp"
+  to_port                      = 3306 
+}

@@ -8,3 +8,8 @@ output "security_group_private_id" {
   value       = aws_security_group.private.id
 }
 
+output "security_group_rds_rds_mysql_id" {
+  description = "the security gorup id for the rds sg to use for the root module"
+  value       = aws_security_group.rds_mysql.id
+}
+
