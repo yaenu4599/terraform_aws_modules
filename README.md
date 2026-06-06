@@ -19,6 +19,7 @@ Reusable Terraform local modules for AWS infrastructure. Made to be able to add 
 |-----------|---------|
 | terraform | ~> 1.15.0 |
 | aws  | ~> 6.0 |
+| random | ~> 3.9.0 |
 
 
 ### permissions
