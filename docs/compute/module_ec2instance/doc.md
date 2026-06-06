@@ -9,14 +9,14 @@ to create only a single one, only create a private or public subnet or index it
 
 ```hcl
 module "ec2instance" {
-  source      = "./modules/ec2instance"
-  common_tags = local.common_tags
-  environment = var.environment
-  # public_key      = var.public_key
-  instance_type     = var.instance_type
-  ami_id            = var.ami_id
-  subnet_ids        = module.vpc.subnets_private_ids
-  security_group_id = module.security_groups.security_group_private_id
+  source              = "./modules/ec2instance"
+  common_tags         = local.common_tags
+  environment         = var.environment
+  # public_key        = var.public_key
+  instance_type       = var.instance_type
+  ami_id              = var.ami_id
+  subnet_ids          = module.vpc.subnets_private_ids
+  security_group_id   = module.security_groups.security_group_private_id
   associate_public_ip = false
 }
 ```
