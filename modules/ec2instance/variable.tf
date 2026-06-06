@@ -41,7 +41,7 @@ variable "subnet_ids" {
 
 variable "security_group_id" {
   description = "sg to launche a instance from"
-  type        = string
+  type        = list(string)
 }
 
 variable "associate_public_ip" {

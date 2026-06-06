@@ -21,7 +21,7 @@ module "asg" {
   desired_capacity  = var.desired_capacity
   instance_type     = var.instance_type_asg
   ami_id            = var.ami_asg_id
-  security_group_id = module.security_groups.security_group_private_id
+  security_group_id = [module.security_groups.security_group_private_id]
 }
 ```
 
@@ -71,7 +71,7 @@ ami_asg_id        = "ami-08bdb1495db49a7f9"+
 | desired_capacity | `number` | desired capacity |
 | instance_type | `string` | instance_type asg should use for deployment |
 | ami_id | `string` | ami asg should use do deploy instances |
-| security_group_id | `string` | public sg for the alb |
+| security_group_id | `list(string)` | public sg for the alb |
 | vpc_id | `string` | in wich vpc the resources should be deployed |
 
 ### outputs

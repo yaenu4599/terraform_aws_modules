@@ -23,7 +23,7 @@ variable "vpc_id" {
 
 variable "security_group_id" {
   description = "sg to assaign to the albs"
-  type        = string
+  type        = list(string)
 }
 
 variable "subnet_ids" {

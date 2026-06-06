@@ -16,7 +16,7 @@ module "ec2instance" {
   instance_type       = var.instance_type
   ami_id              = var.ami_id
   subnet_ids          = module.vpc.subnets_private_ids
-  security_group_id   = module.security_groups.security_group_private_id
+  security_group_id   = [module.security_groups.security_group_private_id]
   associate_public_ip = false
 }
 ```
@@ -87,7 +87,7 @@ ami_id        = "ami-08bdb1495db49a7f9"
 | environment | `string` | variable used for tagging | 
 | vpc_id | `string` | to define in wich vpc the security groups should be made |
 | subnet_ids | `list(string)` | subnet id or ids to provision the instance |
-| security_group_id | `string` | sg to provision the instance |
+| security_group_id | `list(string)` | sg to provision the instance |
 | associate_public_ip | `bool` | should your ec2 instance have an public ip or not |
 
 
