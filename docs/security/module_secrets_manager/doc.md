@@ -1,4 +1,4 @@
-## modules/example
+## modules/secrets_manager
 
 creats:
 A secreat that hold the rds credentials that gets created after with the username "admin" and a random password.

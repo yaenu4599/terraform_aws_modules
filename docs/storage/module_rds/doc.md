@@ -1,4 +1,4 @@
-## modules/example
+## modules/rds
 
 creats:
 rds instance
