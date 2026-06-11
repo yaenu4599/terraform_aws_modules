@@ -12,6 +12,8 @@ Reusable Terraform local modules for AWS infrastructure. Made to be able to add 
 | [s3](./docs/storage/module_s3/doc.md) | [./modules/s3/](./modules/s3/) | creates a s3 bucket with versioning and encryption enabled |
 | [alb](./docs/compute/module_alb/doc.md) | [./modules/alb/](./modules/alb/) | creates an alb in two azs and a tg group |
 | [asg](./docs/compute/module_asg/doc.md) | [./modules/asg/](./modules/asg/) | creats an autoscaling group launching instances in the tg of the alb |
+| [secrets_manager](./docs/security/module_secrets_manager/doc.md) | [./modules/secrets_manager/](./modules/secrets_manager/) | used to store the rds credentials also creates the credentials so that the rds module can querry them |
+| [rds](./docs/storage/module_rds/doc.md) | [./modules/rds/](./modules/rds/) | creates a rds instance |
 
 ### version 
 

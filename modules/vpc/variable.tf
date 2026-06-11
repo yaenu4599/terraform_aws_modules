@@ -3,12 +3,12 @@
 # =============================================================================
 
 variable "common_tags" {
-  description = "variable for correct tagging and allowing the use of the permissions given"
+  description = "keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions"
   type        = map(string)
 }
 
 variable "environment" {
-  description = "root value for tagging"
+  description = "for overview and naming"
   type        = string
 }
 

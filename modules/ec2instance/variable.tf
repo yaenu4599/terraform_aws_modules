@@ -3,18 +3,50 @@
 # =============================================================================
 
 variable "common_tags" {
-  description = "variable for correct tagging and allowing the use of the permissions given"
+  description = "keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions"
   type        = map(string)
 }
 
 variable "environment" {
-  description = "variable form the root module for correct tagging"
+  description = "for overview and naming"
   type        = string
 }
 
 # =============================================================================
 # input
 # =============================================================================
+
+variable "instance_type" {
+  description = "wich instance type to use"
+  type        = string
+}
+
+variable "ami_id" {
+  description = "wich ami should be used"
+  type        = string
+}
+
+variable "subnet_ids" {
+  description = "subnet id or ids, either public or private subnets"
+  type        = list(string)
+}
+
+
+variable "security_group_ids" {
+  description = "wich sg the instance should have, corresponding with the subnet"
+  type        = list(string)
+}
+
+
+# =============================================================================
+# optional
+# ======================================================================
+
+variable "associate_public_ip" {
+  description = "if the instance should have a public ip or not"
+  type        = bool
+  default     = false
+}
 
 /*
 variable "public_key" {
@@ -23,29 +55,4 @@ variable "public_key" {
 }
 */
 
-variable "instance_type" {
-  description = "instance type to create a instance"
-  type        = string
-}
 
-variable "ami_id" {
-  description = "ami id to create a instance"
-  type        = string
-}
-
-variable "subnet_ids" {
-  description = "the ids of the public subnets in the vpc in a list"
-  type        = list(string)
-}
-
-
-variable "security_group_id" {
-  description = "sg to launche a instance from"
-  type        = list(string)
-}
-
-variable "associate_public_ip" {
-  description = "if the ec2instance should have a public ip or not"
-  type = bool
-  default = false
-}

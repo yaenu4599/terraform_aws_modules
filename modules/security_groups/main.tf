@@ -106,7 +106,13 @@ resource "aws_security_group" "rds_mysql" {
 resource "aws_vpc_security_group_ingress_rule" "mysql_port" {
   security_group_id            = aws_security_group.rds_mysql.id
   referenced_security_group_id = aws_security_group.private.id
-  from_port                    = 3306 
+  from_port                    = 3306
   ip_protocol                  = "tcp"
-  to_port                      = 3306 
+  to_port                      = 3306
+}
+
+resource "aws_vpc_security_group_egress_rule" "mysql_outbound_rule" {
+  security_group_id = aws_security_group.rds_mysql.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1"
 }

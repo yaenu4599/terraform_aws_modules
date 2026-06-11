@@ -45,7 +45,7 @@ resource "aws_autoscaling_policy" "scale_in" {
 
 resource "aws_launch_template" "main" {
   name          = "${var.environment}-instance"
-  image_id      = var.ami_id
+  image_id      = var.ami_asg_id
   instance_type = var.instance_type
 
   network_interfaces {

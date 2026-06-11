@@ -1,0 +1,49 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "RdsCreate",
+            "Effect": "Allow",
+            "Action": [
+                "rds:CreateDBSubnetGroup",
+                "rds:CreateDBInstance"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestTag/ManagedBy": "terraform"
+                }
+            }
+        },
+        {
+            "Sid": "RdsModifyAndDelete",
+            "Effect": "Allow",
+            "Action": [
+                "rds:DeleteDBInstance",
+                "rds:DeleteDBSnapshot",
+                "rds:CreateDBClusterSnapshot",
+                "rds:ListTagsForResource",
+                "rds:DeleteDBSubnetGroup",
+                "rds:AddTagsToResource",
+                "rds:RemoveTagsFromResource",
+                "rds:ModifyDBInstance"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/ManagedBy": "terraform"
+                }
+            }
+        },
+        {
+            "Sid": "RdsDescribe",
+            "Effect": "Allow",
+            "Action": [
+                "rds:DescribeDBSubnetGroups",
+                "rds:DescribeDBSnapshots",
+                "rds:DescribeDBInstances"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

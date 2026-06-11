@@ -1,6 +1,10 @@
 ## modules/s3
 
-module to create an s3 bucket 
+create an s3 bucket 
+
+---
+
+To save some money i already added a vpc endpoint to be used for the s3 bucket.
 
 ### usage
 
@@ -23,15 +27,15 @@ none
 
 To use this module attache this policy [/docs/storage/module_s3/TerraformModuleS3.json](/docs/storage/module_s3/TerraformModuleS3.json) to your terraform iam user.
 
-> *Note:* make sure when you change the name of the bucked that you also change the arn in the policy to match
+> *Note:* Make sure when you change the name of the bucket that you also change the ARN in the policy's conditions to match. For the resource and access policy.
 
-> **Note:** make sure that Managedby is eather "terraform" or you change that each permission uses the custom tag defined in Managedby, else it will not work
+> **Note:** Make sure that your Managedby variable is either "terraform" or you change that each permission uses the custom tag defined in Managedby, else it will not work.
 
 #### others
 
 So that ec2 instances have access to the bucked add this policy to role and give it to the instance [/docs/storage/module_s3/%20S3AccessPolicy.json](/docs/storage/module_s3/%20S3AccessPolicy.json)
 
-> *Note:* make sure when you change the name of the bucked that you also change the arn, in the policy, to match
+> *Note:* Make sure to change the conitions arn when changing the bucket name.
 
 ### terraform.tfvars example
 
@@ -45,12 +49,43 @@ bucket_name          = "my-cool-terraform-bucket-version-3"
 
 ### inputs
 
+#### module unspecified but required
+
 | name | type | description |
 |------|------|-------------|
-| local.common_tags | `map(string)` | has keypears environment and managedby, ist used for tagging | 
-| environment | `string` | variable used for tagging | 
-| bucket_name | `string` | set unique bucket name to use for the module |
+| local.common_tags | `map(string)` | keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions | 
+| environment | `string` | for overview and naming | 
 
+```hcl
+variable "environment" {
+  description = "keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions"
+  type        = string
+  default     = "dev"
+}
+
+variable "managedby" {
+  description = "for overview and naming"
+  type        = string
+  default     = "terraform"
+}
+```
+
+#### required
+
+| name | type | description |
+|------|------|-------------|
+| bucket_name | `string` | unique name to create the bucket |
+
+```hcl
+variable "bucket_name" {
+  description = "unique name to create the bucket"
+  type        = string
+}
+```
+
+ #### optional
+
+ none
 
 ### outputs
 

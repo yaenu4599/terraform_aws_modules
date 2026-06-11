@@ -3,12 +3,12 @@
 # =============================================================================
 
 variable "common_tags" {
-  description = "variable for correct tagging and allowing the use of the permissions given"
+  description = "keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions"
   type        = map(string)
 }
 
 variable "environment" {
-  description = "root value for tagging"
+  description = "for overview and naming"
   type        = string
 }
 
@@ -16,14 +16,14 @@ variable "environment" {
 # input
 # =============================================================================
 
-variable "subnet_ids" {
-  description = "subnet ids to deploy the albs in, min 2 needed"
-  type        = list(string)
-}
-
 variable "target_group_arn" {
   description = "tg arn to link the instances with"
   type        = string
+}
+
+variable "subnet_ids" {
+  description = "subnet ids to deploy instances in, eiter a public subnet or a private, to be used with alb use private"
+  type        = list(string)
 }
 
 variable "max_size" {
@@ -44,19 +44,18 @@ variable "desired_capacity" {
   default     = 2
 }
 
-variable "security_group_id" {
-  description = "sg to assaign to the albs"
-  type        = list(string)
-}
-
 variable "instance_type" {
   description = "instance type the asg should create"
   type        = string
 }
 
-variable "ami_id" {
+variable "ami_asg_id" {
   description = "ami id to create the instance"
   type        = string
 }
 
+variable "security_group_id" {
+  description = "sg to assaign to the albs"
+  type        = list(string)
+}
 

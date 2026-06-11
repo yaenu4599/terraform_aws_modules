@@ -3,12 +3,12 @@
 # =============================================================================
 
 variable "common_tags" {
-  description = "variable for correct tagging and allowing the use of the permissions given"
+  description = "keypairs for tagging, has the ManagedBy tag that helps limit terraform perimission"
   type        = map(string)
 }
 
 variable "environment" {
-  description = "variable form the root module for correct tagging"
+  description = "for overview and naming"
   type        = string
 }
 
@@ -17,11 +17,15 @@ variable "environment" {
 # =============================================================================
 
 variable "vpc_id" {
-  description = "vpc import form the vpc module"
+  description = "vpc id to deploy the security gorups in"
   type        = string
 }
+# =============================================================================
+# optional
+# =============================================================================
 
 variable "allow_ssh" {
-  description = "a set of cidr blocks to allow ssh on. Passed from the root"
+  description = "a set of cidr blocks to allow ssh with"
   type        = set(string)
+  default     = []
 }

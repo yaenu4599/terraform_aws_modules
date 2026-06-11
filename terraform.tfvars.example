@@ -9,18 +9,10 @@ managedby   = "terraform"
 # modules.vpc
 # =============================================================================
 
-vpc_cidr = "10.0.0.0/16"
-azs      = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
-
-# subnet_public_cidrs and subnet_private_cidrs must have the same number of entries as azs
+vpc_cidr             = "10.0.0.0/16"
+azs                  = ["eu-central-1a", "eu-central-1b"]
 subnet_public_cidrs  = ["10.0.1.0/24", "10.0.2.0/24"]
 subnet_private_cidrs = ["10.0.3.0/24", "10.0.4.0/24"]
-
-# =============================================================================
-# module.security_groups
-# =============================================================================
-
-ssh_allowed_cidrs = []
 
 # =============================================================================
 # module.ec2instance
@@ -44,3 +36,10 @@ ami_asg_id        = "ami-08bdb1495db49a7f9"
 # =============================================================================
 
 bucket_name = "my-cool-terraform-bucket-version-3"
+
+# =============================================================================
+# modules.rds
+# =============================================================================
+
+allocated_storage = 10
+instance_class    = "db.t3.micro"

@@ -5,8 +5,15 @@
             "Sid": "AsgCreate",
             "Effect": "Allow",
             "Action": [
+                "ec2:DeleteLaunchTemplate"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AsgCreateWRef",
+            "Effect": "Allow",
+            "Action": [
                 "autoscaling:AttachInstances",
-                "ec2:DeleteLaunchTemplate",
                 "ec2:DeleteLaunchTemplateVersions",
                 "elasticloadbalancing:RegisterTargets",
                 "elasticloadbalancing:DeregisterTargets",
@@ -14,7 +21,12 @@
                 "ec2:CreateLaunchTemplateVersion",
                 "autoscaling:CreateAutoScalingGroup"
             ],
-            "Resource": "*"
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/ManagedBy": "terraform"
+                }
+            }
         },
         {
             "Sid": "AsgModifyOrDelete",

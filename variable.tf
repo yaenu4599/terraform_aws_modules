@@ -27,10 +27,10 @@ variable "vpc_cidr" {
 variable "azs" {
   description = "a list of azs to deploy in"
   type        = list(string)
-  default     = ["eu-central-1a", "eu-central-1b", "eu-central-1c"] # <-- each az gets a public and private subnet
+  default     = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
 }
 
-# subnet_public_cidrs and subnet_private_cidrs must have the same number of entries as azs
+# Currently its only possible to have one public and a private subnet to have, if there are more subnets of one kind then it only makes as man subnets as azs defined.
 
 variable "subnet_public_cidrs" {
   description = "cidr blocks to creat public subnets"
@@ -41,7 +41,7 @@ variable "subnet_public_cidrs" {
 variable "subnet_private_cidrs" {
   description = "cidr blocks to creat private subnets"
   type        = list(string)
-  default     = ["10.0.3.0/24", "10.0.4.0/24"]
+  default     = ["10.0.3.0/24", "10.0.4.0/24"] # Each private subnet gets a own natgateway, so there has to be the same amout or more public subnets as private subents.
 }
 
 # =============================================================================
@@ -118,3 +118,18 @@ variable "bucket_name" {
   type        = string
 }
 
+# =============================================================================
+# module.rds
+# =============================================================================
+
+variable "allocated_storage" {
+  description = "storage size of db"
+  type        = number
+  default     = 10
+}
+
+variable "instance_class" {
+  description = "instance class of the rds"
+  type        = string
+  default     = "db.t3.micro"
+}
