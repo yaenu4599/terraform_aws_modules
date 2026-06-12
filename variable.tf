@@ -5,7 +5,7 @@
 variable "environment" {
   description = "Variable used for tagging"
   type        = string
-  default     = "dev"
+  default     = "test"
 }
 
 variable "managedby" {
