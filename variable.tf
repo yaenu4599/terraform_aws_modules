@@ -102,11 +102,13 @@ variable "desired_capacity" {
 variable "instance_type_asg" {
   description = "instance type the asg should create"
   type        = string
+  default     = "t3.micro"
 }
 
 variable "ami_asg_id" {
   description = "ami id to create the instance"
   type        = string
+  default     = "ami-08bdb1495db49a7f9"
 }
 
 # =============================================================================
@@ -116,6 +118,7 @@ variable "ami_asg_id" {
 variable "bucket_name" {
   description = "unique name to create the bucket(give name in tvfars)"
   type        = string
+  default     = "my-cool-terraform-bucket-version-3"
 }
 
 # =============================================================================
