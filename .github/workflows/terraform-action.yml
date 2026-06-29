@@ -9,7 +9,7 @@ on:
     inputs:
       actions:
         description: 'Terraform actions'
-        requirement: true
+        required: true
         type: choice
         options:
           - plan
