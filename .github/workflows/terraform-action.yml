@@ -54,6 +54,12 @@ jobs:
           name: terraform-state
           path: terraform.tfstate
 
+      - name: Download State
+        if: github.event_name == 'workflow_dispatch' && github.event.input.actions == 'destroy'
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-state
+
       - name: Terraform Destroy
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'destroy'
         run: terraform destroy -auto-approve
