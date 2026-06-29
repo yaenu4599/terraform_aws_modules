@@ -44,9 +44,16 @@ jobs:
 
       - name: Terraform Apply
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'apply'
-        run: terraform apply -auto-approve
+        run: terraform apply -target=modules.s3 -auto-approve
+
+      - name: Upload State
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-state
+          path: examples/vpc-test/terraform.tfstate
 
       - name: Terraform Destroy
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'destroy'
         run: terraform destroy -auto-approve
+        working-directory: examples/vpc-test
 
