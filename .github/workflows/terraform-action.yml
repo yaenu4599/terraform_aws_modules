@@ -40,7 +40,7 @@ jobs:
 
       - name: Terraform Plan
         if: github.event_name != 'worflow_dispatch' || github.event.inputs.actions == 'plan'
-        run: terraform plan
+        run: terraform -target=modules.s3 plan
 
       - name: Terraform Apply
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'apply'
