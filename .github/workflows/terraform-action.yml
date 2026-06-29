@@ -37,10 +37,12 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: examples/vpc-test
 
       - name: Terraform Plan
-        if: github.event_name != 'worflow_dispatch' || github.event.inputs.actions == 'plan'
+        if: github.event_name != 'workflow_dispatch' || github.event.inputs.actions == 'plan'
         run: terraform plan -target=module.s3 
+        working-directory: examples/vpc-test
 
       - name: Terraform Apply
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'apply'
