@@ -43,6 +43,7 @@ jobs:
         run: terraform plan 
       
       - name: wait
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions != 'plan'
         run: sleep ${{ github.event.inputs.wait_seconds }}
         
       - name: Terraform Apply
