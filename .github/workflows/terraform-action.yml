@@ -1,10 +1,8 @@
-name: Terraform
+name: terraform_aws_modules-main
 
 on: 
   push:
-    branches: [main]
-  pull_request: 
-    branches: [main]
+    branches: [main, dev]
   workflow_dispatch:
     inputs:
       actions:
