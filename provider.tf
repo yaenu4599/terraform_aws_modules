@@ -17,3 +17,13 @@ provider "aws" {
 
 provider "random" {}
 
+terraform {
+  backend "s3" {
+    bucket       = "${var.MY_BUCKED}"
+    key          = "terraform/backend/terraform_backend_bucked_v1"
+    region       = "eu-central-1"
+    encrypt      = true
+    use_lockfile = true
+  }
+}
+
