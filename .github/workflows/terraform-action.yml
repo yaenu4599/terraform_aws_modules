@@ -15,7 +15,7 @@ on:
           - destroy
       wait_seconds:
         description: 'Wait to review the plan'
-        requried: false
+        required: false
         default: '0'
 permissions:
   id-token: write
