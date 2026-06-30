@@ -38,7 +38,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -backend-config="bucket=${{ vars.MY_BUCKET }}"
 
       - name: Terraform Plan
         if: github.event_name != 'workflow_dispatch' || github.event.inputs.actions == 'plan'
