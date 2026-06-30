@@ -13,9 +13,11 @@ on:
         type: choice
         options:
           - plan
-          - apply
-          - destroy
-
+          - apply and destroy
+      wait_seconds: 
+        description: 'sendos to wait till it starts the destroy process'
+        required: false
+        default: '300'
 permissions:
   id-token: write
   contents: read
@@ -35,12 +37,6 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Download State
-        continue-on-error: true
-        uses: actions/download-artifact@v4
-        with:
-          name: terraform-state
-
       - name: Terraform Init
         run: terraform init
 
@@ -48,19 +44,20 @@ jobs:
         if: github.event_name != 'workflow_dispatch' || github.event.inputs.actions == 'plan'
         run: terraform plan -target=module.s3 
         
-
       - name: Terraform Apply
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'apply'
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'apply and destroy'
         run: terraform apply -target=module.s3 -auto-approve
 
-      - name: Upload State
-        uses: actions/upload-artifact@v4
-        with:
-          name: terraform-state
-          path: terraform.tfstate
+      - name: wait
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'apply and destroy'
+        run: |
+          sleep ${{ github.event.inputs.wait_seconds}} 
+          echo "time till it runs; terraform destroy"
+        
+
 
       - name: Terraform Destroy
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'destroy'
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'apply and destroy'
         run: terraform destroy -auto-approve
         
 
