@@ -15,7 +15,7 @@ on:
           - plan
           - apply and destroy
       wait_seconds: 
-        description: 'sendos to wait till it starts the destroy process'
+        description: 'seconds to wait, after apply, till it starts the destroy process'
         required: false
         default: '300'
 permissions:
