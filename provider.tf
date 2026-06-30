@@ -19,7 +19,7 @@ provider "random" {}
 
 terraform {
   backend "s3" {
-    key          = "terraform/backend/terraform_backend_bucked_v1"
+    key          = "terraform/backend/terraform.tfstate"
     region       = "eu-central-1"
     encrypt      = true
     use_lockfile = true
