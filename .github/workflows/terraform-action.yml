@@ -15,10 +15,6 @@ on:
           - plan
           - apply
           - destroy
-      wait_seconds: 
-        description: 'seconds to wait, after apply, till it starts the destroy process'
-        required: false
-        default: '300'
 permissions:
   id-token: write
   contents: read
