@@ -1,4 +1,4 @@
-name: Terraform
+name: terraform_aws_modules-dev
 
 on: 
   push:
