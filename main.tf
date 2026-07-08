@@ -81,6 +81,8 @@ module "asg" {
   instance_type     = var.instance_type_asg
   ami_asg_id        = var.ami_asg_id
   security_group_id = [module.security_groups.security_group_private_id]
+
+  depends_on = [module.vpc]
 }
 
 module "alb" {
