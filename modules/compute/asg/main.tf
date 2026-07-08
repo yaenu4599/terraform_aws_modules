@@ -67,6 +67,11 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.main.name
   }
+
+  tags = merge( var.common_tags, 
+  {
+    Name = "${var.environment}-cpu-high"
+  })
 }
 
 resource "aws_cloudwatch_metric_alarm" "low_cpu" {
@@ -85,6 +90,11 @@ resource "aws_cloudwatch_metric_alarm" "low_cpu" {
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.main.name
   }
+  
+  tags = merge( var.common_tags, 
+  {
+    Name = "${var.environment}-cpu-lowe"
+  })
 }
 
 resource "aws_launch_template" "main" {
