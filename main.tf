@@ -17,7 +17,7 @@ locals {
 # =============================================================================
 
 module "vpc" {
-  source = "./modules/vpc"
+  source = "./modules/networking/vpc"
 
   common_tags = local.common_tags
   environment = var.environment
@@ -33,7 +33,7 @@ module "vpc" {
 # =============================================================================
 
 module "security_groups" {
-  source = "./modules/security_groups"
+  source = "./modules/security/security_groups"
 
   common_tags = local.common_tags
   environment = var.environment
@@ -42,7 +42,7 @@ module "security_groups" {
 }
 
 module "secrets_manager" {
-  source = "./modules/secrets_manager"
+  source = "./modules/security/secrets_manager"
 
   common_tags = local.common_tags
   environment = var.environment
@@ -52,10 +52,8 @@ module "secrets_manager" {
 # compute
 # =============================================================================
 
-/* #asg creates the needed instances, only needed for single instances
-
 module "ec2instance" {
-  source      = "./modules/ec2instance"
+  source = "./modules/compute/ec2instance"
 
   common_tags = local.common_tags
   environment = var.environment
@@ -63,15 +61,14 @@ module "ec2instance" {
   instance_type       = var.instance_type
   ami_id              = var.ami_id
   subnet_ids          = module.vpc.subnets_private_ids
-  security_group_ids   = [module.security_groups.security_group_private_id]
-
+  security_group_ids  = [module.security_groups.security_group_private_id]
   associate_public_ip = false
   #public_key         = var.public_key
 }
-*/
+
 
 module "asg" {
-  source = "./modules/asg"
+  source = "./modules/compute/asg"
 
   common_tags = local.common_tags
   environment = var.environment
@@ -87,7 +84,7 @@ module "asg" {
 }
 
 module "alb" {
-  source = "./modules/alb"
+  source = "./modules/compute/alb"
 
   common_tags = local.common_tags
   environment = var.environment
@@ -103,7 +100,7 @@ module "alb" {
 
 
 module "s3" {
-  source = "./modules/s3"
+  source = "./modules/storage/s3"
 
   common_tags = local.common_tags
   environment = var.environment
@@ -112,7 +109,7 @@ module "s3" {
 }
 
 module "rds" {
-  source = "./modules/rds"
+  source = "./modules/storage/rds"
 
   common_tags = local.common_tags
   environment = var.environment

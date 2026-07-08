@@ -32,8 +32,8 @@ module "ec2instance" {
 
 |modules | folder | description | 
 |--------|--------|-------------|
-| [vpc](/docs/networking/module_vpc/doc.md) | [/modules/vpc](/modules/vpc) | vpc to provide network accessablity and basic structure |
-| [security groups](/docs/security/module_security_groups/doc.md) | [/modules/security_groups](/modules/security_groups) | private or public security group to launch the instance in |
+| [vpc](/docs/networking/module_vpc/doc.md) | [/modules/networking/vpc](/modules/networking/vpc) | vpc to provide network accessablity and basic structure |
+| [security groups](/docs/security/module_security_groups/doc.md) | [/modules/security/security_groups](/modules/security/security_groups) | private or public security group to launch the instance in |
 
 #### permissions
 

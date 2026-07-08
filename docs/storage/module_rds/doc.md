@@ -36,9 +36,9 @@ module "rds" {
 
 |modules | folder | description | 
 |--------|--------|-------------|
-| [vpc](/docs/networking/module_vpc/doc.md) | [/modules/vpc/)](/modules/vpc/) | network to deploy the rds instance in |
-| [security groups](/docs/security/module_security_groups/doc.md) | [/modules/security_groups/](/modules/security_groups/) |  psg because it required and also to control acess |
-| [secrets manager](/docs/security/module_secrets_manager/)| [/modules/secrets_manager/](/modules/secrets_manager/) | for safe keeping the rds credentials, it also creates the credentials of the rds instance |
+| [vpc](/docs/networking/module_vpc/doc.md) | [/modules/networking/vpc/](/modules/networking/vpc/) | network to deploy the rds instance in |
+| [security groups](/docs/security/module_security_groups/doc.md) | [/modules/security/security_groups/](/modules/security/security_groups/) |  psg because it required and also to control acess |
+| [secrets manager](/docs/security/module_secrets_manager/)| [/modules/security/secrets_manager/](/modules/security/secrets_manager/) | for safe keeping the rds credentials, it also creates the credentials of the rds instance |
 
 #### permissions
 

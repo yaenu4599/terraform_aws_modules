@@ -31,16 +31,60 @@ resource "aws_autoscaling_policy" "scale_out" {
   name                   = "${var.environment}-scale-out"
   autoscaling_group_name = aws_autoscaling_group.main.name
   adjustment_type        = "ChangeInCapacity"
-  scaling_adjustment     = 1
-  cooldown               = 300
+  policy_type = "StepScaling"
+
+  step_adjustment {
+    scaling_adjustment = 1
+    metric_interval_upper_bound = 0
+  }
 }
 
 resource "aws_autoscaling_policy" "scale_in" {
   name                   = "${var.environment}-scale-in"
   autoscaling_group_name = aws_autoscaling_group.main.name
   adjustment_type        = "ChangeInCapacity"
-  scaling_adjustment     = -1
-  cooldown               = 300
+  policy_type = "StepScaling"
+
+  step_adjustment {
+    scaling_adjustment = -1
+    metric_interval_lower_bound = 0
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "high_cpu" {
+  alarm_name = "${var.environment}-cpu-high"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods = 2
+  metric_name = "CPUUtilization"
+  namespace = "AWS/EC2"
+  period = 300
+  statistic = "Average"
+  threshold = 80
+  
+  alarm_description = "monitor for ec2 high cpu utilization"
+  alarm_actions = [aws_autoscaling_policy.scale_out.arn]
+
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.main.name
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "low_cpu" {
+  alarm_name = "${var.environment}-cpu-low"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods = 2
+  metric_name = "CPUUtilization"
+  namespace = "AWS/EC2"
+  period = 300
+  statistic = "Average"
+  threshold = 10
+  
+  alarm_description = "monitor for ec2 low cpu utilization"
+  alarm_actions = [aws_autoscaling_policy.scale_in.arn]
+
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.main.name
+  }
 }
 
 resource "aws_launch_template" "main" {

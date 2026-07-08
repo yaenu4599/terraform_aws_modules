@@ -28,8 +28,8 @@ module "alb" {
 
 |modules | folder | description | 
 |--------|--------|-------------|
-| [vpc](/docs/networking/module_vpc/doc.md) | [/modules/vpc/)](/modules/vpc/) | vpc to provide network accessablity and basic structure |
-| [security groups](/docs/security/module_security_groups/doc.md) | [/modules/security_groups/](/modules/security_groups/) | public security group to launch the alb in private sg is references the public sg for inbound traffic |
+| [vpc](/docs/networking/module_vpc/doc.md) | [/modules/networking/vpc/)](/modules/networking/vpc/) | vpc to provide network accessablity and basic structure |
+| [security groups](/docs/security/module_security_groups/doc.md) | [/modules/security/security_groups/](/modules/security/security_groups/) | public security group to launch the alb in private sg is references the public sg for inbound traffic |
 
 #### permissions
 

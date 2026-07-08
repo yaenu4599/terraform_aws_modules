@@ -24,7 +24,7 @@ module "secrets_manager" {
 
 |modules | folder | description | 
 |--------|--------|-------------|
-| [rds](/docs/storage/module_rds/doc.md) | [/modules/rds/](/modules/rds/) | requried because its made to be used with the rds module |
+| [rds](/docs/storage/module_rds/doc.md) | [/modules/storage/rds/](/modules/storage/rds/) | requried because its made to be used with the rds module |
 
 #### permissions
 

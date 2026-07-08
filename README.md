@@ -6,14 +6,15 @@ Reusable Terraform local modules for AWS infrastructure. Made to be able to add 
 
 |modules | folder | description |
 |--------|--------|-------------|
-| [vpc](./docs/networking/module_vpc/doc.md) | [./modules/vpc](./modules/vpc) | vpc, igw, nat, subnets, route tables, s3 vpc Gwe |
-| [security groups](./docs/security/module_security_groups/doc.md) | [./modules/security_groups](./modules/security_groups) | a public and private security group |
-| [ec2instance](./docs/compute/module_ec2instance/doc.md) | [./modules/ec2instance/](./modules/ec2instance/) | creates a instance in a private subnet and with a private security group |
-| [s3](./docs/storage/module_s3/doc.md) | [./modules/s3/](./modules/s3/) | creates a s3 bucket with versioning and encryption enabled |
-| [alb](./docs/compute/module_alb/doc.md) | [./modules/alb/](./modules/alb/) | creates an alb in two azs and a tg group |
-| [asg](./docs/compute/module_asg/doc.md) | [./modules/asg/](./modules/asg/) | creats an autoscaling group launching instances in the tg of the alb |
-| [secrets_manager](./docs/security/module_secrets_manager/doc.md) | [./modules/secrets_manager/](./modules/secrets_manager/) | used to store the rds credentials also creates the credentials so that the rds module can querry them |
-| [rds](./docs/storage/module_rds/doc.md) | [./modules/rds/](./modules/rds/) | creates a rds instance |
+| [vpc](./docs/networking/module_vpc/doc.md) | [./modules/networking/vpc/](./modules/networking/vpc/) | vpc, igw, nat, subnets, route tables, s3 vpc Gwe |
+| [ec2instance](./docs/compute/module_ec2instance/doc.md) | [./modules/compute/ec2instance/](./modules/compute/ec2instance/) | creates a instance in a private subnet and with a private security group |
+| [alb](./docs/compute/module_alb/doc.md) | [./modules/compute/alb/](./modules/compute/alb/) | creates an alb in two azs and a tg group |
+| [asg](./docs/compute/module_asg/doc.md) | [./modules/compute/asg/](./modules/compute/asg/) | creats an autoscaling group launching instances in the tg of the alb |
+| [s3](./docs/storage/module_s3/doc.md) | [./modules/storage/s3/](./modules/storage/s3/) | creates a s3 bucket with versioning and encryption enabled |
+| [rds](./docs/storage/module_rds/doc.md) | [./modules/storage/rds/](./modules/storage/rds/) | creates a rds instance |
+| [security groups](./docs/security/module_security_groups/doc.md) | [./modules/security/security_groups/](./modules/security/security_groups/) | a public and private security group |
+| [secrets_manager](./docs/security/module_secrets_manager/doc.md) | [./modules/security/secrets_manager/](./modules/security/secrets_manager/) | used to store the rds credentials also creates the credentials so that the rds module can querry them |
+
 
 ### version 
 

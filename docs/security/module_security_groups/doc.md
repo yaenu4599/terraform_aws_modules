@@ -37,7 +37,7 @@ module "security_groups" {
 
 |modules | folder | description | 
 |--------|--------|-------------|
-| [vpc](/docs/networking/module_vpc/doc.md) | [/modules/vpc](/modules/vpc) | vpc to launche the security groups in |
+| [vpc](/docs/networking/module_vpc/doc.md) | [/modules/networking/vpc](/modules/networking/vpc) | vpc to launche the security groups in |
 
 
 #### permissions

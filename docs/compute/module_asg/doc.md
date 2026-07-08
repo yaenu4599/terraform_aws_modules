@@ -39,9 +39,9 @@ module "asg" {
 
 |modules | folder | description | 
 |--------|--------|-------------|
-| [vpc](/docs/networking/module_vpc/doc.md) | [/modules/vpc/)](/modules/vpc/) | network to deploy the asg in |
-| [security groups](/docs/security/module_security_groups/doc.md) | [/modules/security_groups/](/modules/security_groups/) | sg because it required and also to control acess |
-| [alb](/docs/compute/module_alb/) | [/modules/alb/](/modules/alb/) | its made to be used with the lb, can be used without but the tg arn has to be removed |
+| [vpc](/docs/networking/module_vpc/doc.md) | [/modules/networking/vpc/)](/modules/networking/vpc/) | network to deploy the asg in |
+| [security groups](/docs/security/module_security_groups/doc.md) | [/modules/security/security_groups/](/modules/security/security_groups/) | sg because it required and also to control acess |
+| [alb](/docs/compute/module_alb/) | [/modules/compute/alb/](/modules/compute/alb/) | its made to be used with the lb, can be used without but the tg arn has to be removed |
 
 #### permissions
 
