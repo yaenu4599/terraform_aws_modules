@@ -90,7 +90,7 @@ variable "max_size" {
 variable "min_size" {
   description = "asg min instance amount"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "desired_capacity" {
