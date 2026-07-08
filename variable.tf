@@ -84,7 +84,7 @@ variable "ami_id" {
 variable "max_size" {
   description = "asg instance limit"
   type        = number
-  default     = 2
+  default     = 3
 }
 
 variable "min_size" {
