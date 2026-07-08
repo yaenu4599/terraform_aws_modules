@@ -35,7 +35,7 @@ resource "aws_autoscaling_policy" "scale_out" {
 
   step_adjustment {
     scaling_adjustment = 1
-    metric_interval_upper_bound = 0
+    metric_interval_lower_bound = 0
   }
 }
 
@@ -47,7 +47,7 @@ resource "aws_autoscaling_policy" "scale_in" {
 
   step_adjustment {
     scaling_adjustment = -1
-    metric_interval_lower_bound = 0
+    metric_interval_upper_bound = 0
   }
 }
 
