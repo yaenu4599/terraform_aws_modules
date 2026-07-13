@@ -94,6 +94,8 @@ module "alb" {
   vpc_id            = module.vpc.vpc_id
   security_group_id = [module.security_groups.security_group_public_id]
   subnet_ids        = [module.vpc.subnets_public_ids[0], module.vpc.subnets_public_ids[1]]
+
+  depends_on = [ module.vpc ]
 }
 
 # =============================================================================
