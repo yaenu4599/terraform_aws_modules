@@ -30,6 +30,10 @@ resource "aws_lb_listener" "main-http" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.main.arn
   }
+
+  tags = merge( var.common_tags, {
+    Name = "${var.environment}-alb-listner"
+  })
 }
 
 resource "aws_lb_target_group" "main" {
