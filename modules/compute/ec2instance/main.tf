@@ -20,4 +20,5 @@ resource "aws_instance" "main" {
       Name = "${var.environment}-instance"
     }
   )
+  volume_tags = var.common_tags
 }
