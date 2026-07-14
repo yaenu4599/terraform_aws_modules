@@ -15,12 +15,10 @@ resource "aws_autoscaling_group" "main" {
     propagate_at_launch = false
   }
 
-  
   launch_template {
     id = aws_launch_template.main.id
     version = "$Latest"
   }
-
 
   lifecycle {
     create_before_destroy = true
@@ -115,6 +113,10 @@ resource "aws_launch_template" "main" {
   systemctl enable httpd
   EOF
   )
+
+tags = merge( common_tags, {
+  Name = "${environment}-launch-template"
+})
 
   tag_specifications {
     resource_type = "instance"
