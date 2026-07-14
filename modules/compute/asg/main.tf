@@ -115,7 +115,7 @@ resource "aws_launch_template" "main" {
   )
 
 tags = merge( var.common_tags, {
-  Name = "${environment}-launch-template"
+  Name = "${var.environment}-launch-template"
 })
 
   tag_specifications {
