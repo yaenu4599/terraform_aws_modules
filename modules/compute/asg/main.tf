@@ -115,7 +115,7 @@ resource "aws_launch_template" "main" {
   )
 
 tags = merge( var.common_tags, {
-  Name = "${var.environment}-Launchtemplate"
+  Name = "${var.environment}-launch_template"
 })
 
   tag_specifications {
@@ -123,21 +123,21 @@ tags = merge( var.common_tags, {
 
     tags = merge(var.common_tags,
       {
-        Name = "${var.environment}-LaunchTemplate-instance"
+        Name = "${var.environment}-launch_template-instance"
     })
   }
 
   tag_specifications {
     resource_type = "network-interface"
     tags =  merge( var.common_tags, {
-      Name = "${var.environment}-LaunchTemplate-eni"
+      Name = "${var.environment}-launch_template-eni"
     })
   }
 
    tag_specifications {
     resource_type = "volume"
     tags =  merge( var.common_tags, {
-      Name = "${var.environment}-LaunchTemplate-volume"
+      Name = "${var.environment}-launch_template-volume"
     })
   }
 }
