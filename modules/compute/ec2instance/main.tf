@@ -1,3 +1,7 @@
+data "aws_iam_instance_profile" "ssm_s3_profile" {
+  name = "Ec2TestRole"
+}
+
 /*
 
 resource "aws_key_pair" "main" {
@@ -7,29 +11,30 @@ resource "aws_key_pair" "main" {
 */
 
 resource "aws_network_interface" "main" {
-  count = length(var.subnet_ids)
-  subnet_id = var.subnet_ids[count.index]
-  security_groups = var.security_group_ids
+  count             = length(var.subnet_ids)
+  subnet_id         = var.subnet_ids[count.index]
+  security_groups   = var.security_group_ids
   source_dest_check = true
 
-  tags = merge( var.common_tags, {
+  tags = merge(var.common_tags, {
     Name = "${var.environment}-instance-eni"
   })
 }
 
 resource "aws_instance" "main" {
-  count                       = length(var.subnet_ids)
-  ami                         = var.ami_id
-  instance_type               = var.instance_type
-  # key_name                    = aws_key_pair.main.key_name
-  
+  count                = length(var.subnet_ids)
+  ami                  = var.ami_id
+  instance_type        = var.instance_type
+  iam_instance_profile = data.aws_iam_instance_profile.ssm_s3_profile.name
+  # key_name           = aws_key_pair.main.key_name
+
   primary_network_interface {
-    network_interface_id = aws_network_interface.main[count.index].id    
+    network_interface_id = aws_network_interface.main[count.index].id
   }
   tags = merge(var.common_tags,
     {
       Name = "${var.environment}-instance"
-    })
+  })
 
   volume_tags = merge(var.common_tags, {
     Name = "${var.environment}-instance-volume"

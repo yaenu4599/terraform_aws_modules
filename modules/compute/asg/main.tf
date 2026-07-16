@@ -1,3 +1,7 @@
+data "aws_iam_instance_profile" "ssm_s3_profile" {
+  name = "Ec2TestRole" #add your own role name here
+}
+
 resource "aws_autoscaling_group" "main" {
   name                      = "${var.environment}-terraform-asg"
   max_size                  = var.max_size
@@ -16,7 +20,7 @@ resource "aws_autoscaling_group" "main" {
   }
 
   launch_template {
-    id = aws_launch_template.main.id
+    id      = aws_launch_template.main.id
     version = "$Latest"
   }
 
@@ -29,10 +33,10 @@ resource "aws_autoscaling_policy" "scale_out" {
   name                   = "${var.environment}-scale-out"
   autoscaling_group_name = aws_autoscaling_group.main.name
   adjustment_type        = "ChangeInCapacity"
-  policy_type = "StepScaling"
+  policy_type            = "StepScaling"
 
   step_adjustment {
-    scaling_adjustment = 1
+    scaling_adjustment          = 1
     metric_interval_lower_bound = 0
   }
 }
@@ -41,57 +45,57 @@ resource "aws_autoscaling_policy" "scale_in" {
   name                   = "${var.environment}-scale-in"
   autoscaling_group_name = aws_autoscaling_group.main.name
   adjustment_type        = "ChangeInCapacity"
-  policy_type = "StepScaling"
+  policy_type            = "StepScaling"
 
   step_adjustment {
-    scaling_adjustment = -1
+    scaling_adjustment          = -1
     metric_interval_upper_bound = 0
   }
 }
 
 resource "aws_cloudwatch_metric_alarm" "high_cpu" {
-  alarm_name = "${var.environment}-cpu-high"
+  alarm_name          = "${var.environment}-cpu-high"
   comparison_operator = "GreaterThanThreshold"
-  evaluation_periods = 2
-  metric_name = "CPUUtilization"
-  namespace = "AWS/EC2"
-  period = 300
-  statistic = "Average"
-  threshold = 80
-  
+  evaluation_periods  = 2
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/EC2"
+  period              = 300
+  statistic           = "Average"
+  threshold           = 80
+
   alarm_description = "monitor for ec2 high cpu utilization"
-  alarm_actions = [aws_autoscaling_policy.scale_out.arn]
+  alarm_actions     = [aws_autoscaling_policy.scale_out.arn]
 
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.main.name
   }
 
-  tags = merge( var.common_tags, 
-  {
-    Name = "${var.environment}-cpu-high"
+  tags = merge(var.common_tags,
+    {
+      Name = "${var.environment}-cpu-high"
   })
 }
 
 resource "aws_cloudwatch_metric_alarm" "low_cpu" {
-  alarm_name = "${var.environment}-cpu-low"
+  alarm_name          = "${var.environment}-cpu-low"
   comparison_operator = "LessThanThreshold"
-  evaluation_periods = 2
-  metric_name = "CPUUtilization"
-  namespace = "AWS/EC2"
-  period = 300
-  statistic = "Average"
-  threshold = 10
-  
+  evaluation_periods  = 2
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/EC2"
+  period              = 300
+  statistic           = "Average"
+  threshold           = 10
+
   alarm_description = "monitor for ec2 low cpu utilization"
-  alarm_actions = [aws_autoscaling_policy.scale_in.arn]
+  alarm_actions     = [aws_autoscaling_policy.scale_in.arn]
 
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.main.name
   }
-  
-  tags = merge( var.common_tags, 
-  {
-    Name = "${var.environment}-cpu-lowe"
+
+  tags = merge(var.common_tags,
+    {
+      Name = "${var.environment}-cpu-lowe"
   })
 }
 
@@ -99,6 +103,10 @@ resource "aws_launch_template" "main" {
   name          = "${var.environment}-instance"
   image_id      = var.ami_asg_id
   instance_type = var.instance_type
+
+  iam_instance_profile {
+    name = data.aws_iam_instance_profile.ssm_s3_profile.name
+  }
 
   network_interfaces {
     associate_public_ip_address = false
@@ -114,9 +122,9 @@ resource "aws_launch_template" "main" {
   EOF
   )
 
-tags = merge( var.common_tags, {
-  Name = "${var.environment}-launch_template"
-})
+  tags = merge(var.common_tags, {
+    Name = "${var.environment}-launch_template"
+  })
 
   tag_specifications {
     resource_type = "instance"
@@ -129,14 +137,14 @@ tags = merge( var.common_tags, {
 
   tag_specifications {
     resource_type = "network-interface"
-    tags =  merge( var.common_tags, {
+    tags = merge(var.common_tags, {
       Name = "${var.environment}-launch_template-eni"
     })
   }
 
-   tag_specifications {
+  tag_specifications {
     resource_type = "volume"
-    tags =  merge( var.common_tags, {
+    tags = merge(var.common_tags, {
       Name = "${var.environment}-launch_template-volume"
     })
   }
