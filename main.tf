@@ -64,6 +64,8 @@ module "ec2instance" {
   security_group_ids  = [module.security_groups.security_group_private_id]
   associate_public_ip = false
   #public_key         = var.public_key
+
+  depends_on = [module.vpc, module.security_groups]
 }
 
 
@@ -82,7 +84,7 @@ module "asg" {
   ami_asg_id        = var.ami_asg_id
   security_group_id = [module.security_groups.security_group_private_id]
 
-  depends_on = [module.vpc]
+  depends_on = [module.vpc, module.security_groups]
 }
 
 module "alb" {
