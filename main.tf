@@ -150,5 +150,5 @@ module "cloudwatch" {
   alb_arn_suffix = module.alb.alb_arn_suffix
   target_group_arn_suffix = module.alb.target_group_arn_suffix
   
-  depends_on = [module.vpc, module.security_groups, module.alb, modulde.rds]
+  depends_on = [module.vpc, module.security_groups, module.alb, module.rds]
 }
