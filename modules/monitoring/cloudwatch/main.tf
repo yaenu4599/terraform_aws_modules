@@ -57,12 +57,12 @@ resource "aws_cloudwatch_metric_alarm" "rds_high_connections_rate" {
   threshold = var.rds_connections_threshold
   alarm_actions = [aws_sns_topic.alarm.arn]
   dimensions = {
-  DBInstanceIdentifier = var.rds_instance_id
-
+    DBInstanceIdentifier = var.rds_instance_id
+  }
+  
   tags = merge( var.common_tags, {
     Name = "${var.environment}-rds_high_connections_rate"
   })
-  }
 }
 
 resource "aws_cloudwatch_metric_alarm" "alb_unhealty_instances" {
