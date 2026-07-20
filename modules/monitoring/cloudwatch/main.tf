@@ -76,8 +76,8 @@ resource "aws_cloudwatch_metric_alarm" "alb_unhealty_instances" {
   threshold = 0
   alarm_actions = [aws_sns_topic.alarm.arn]
   dimensions = {
-    TargetGroup = target_group_arn_suffix
-    LoadBalancer = alb_arn_suffix
+    TargetGroup = var.target_group_arn_suffix
+    LoadBalancer = var.alb_arn_suffix
   }
 
   tags = merge( var.common_tags, {
@@ -95,7 +95,7 @@ resource "aws_cloudwatch_metric_alarm" "alb_5xx_errors" {
   statistic = "Sum"
   threshold = var.alb_5xx_threshold
   dimensions = {
-    LoadBalancer = alb_arn_suffix
+    LoadBalancer = var.alb_arn_suffix
   }
 
   tags = merge( var.common_tags, {
