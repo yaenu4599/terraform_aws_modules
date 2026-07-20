@@ -37,13 +37,13 @@ jobs:
 
       - name: Terraform Plan
         if: github.event_name != 'workflow_dispatch' || github.event.inputs.actions == 'plan'
-        run: terraform plan 
+        run: terraform -target=module.cloudwatch plan 
 
       - name: Terraform Apply
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'apply'
-        run: terraform apply  -auto-approve
+        run: terraform apply -target=module.cloudwatch  -auto-approve
 
       - name: Terraform Destroy
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'destroy'
-        run: terraform destroy -auto-approve
+        run: terraform destroy  -auto-approve
         
