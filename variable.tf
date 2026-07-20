@@ -136,3 +136,13 @@ variable "instance_class" {
   type        = string
   default     = "db.t3.micro"
 }
+
+# =============================================================================
+# module.cloudwatch
+# ============================================================================
+
+variable "email_for_sns" {
+  description = "mail used fo the sns topic"
+  type = string
+  default = "<your-mail-here>"
+}
