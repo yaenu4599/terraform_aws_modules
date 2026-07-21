@@ -4,9 +4,11 @@
 
 resource "aws_sns_topic" "alarm" {
   name = "${var.environment}-sns-alarm"
+  
   tags = merge( var.common_tags, {
     Name = "${var.environment}-sns-alarm"
   })
+
 }
 
 resource "aws_sns_topic_subscription" "alarm" {
