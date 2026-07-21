@@ -100,7 +100,7 @@ module "alb" {
   subnet_ids        = [module.vpc.subnets_public_ids[0], module.vpc.subnets_public_ids[1]]
 
   # for testing
-  depends_on = [ module.vpc ]
+  depends_on = [module.vpc]
 }
 
 # =============================================================================
@@ -130,7 +130,7 @@ module "rds" {
   secret_id           = module.secrets_manager.secrets_creation_id
 
   skip_final_snapshot = true
-  
+
   # for testing
   depends_on = [module.secrets_manager]
 }
@@ -145,10 +145,10 @@ module "cloudwatch" {
   common_tags = local.common_tags
   environment = var.environment
 
-  email_for_sns = var.email_for_sns
-  rds_instance_id = module.rds.rds_instance_id
-  alb_arn_suffix = module.alb.alb_arn_suffix
+  email_for_sns           = var.email_for_sns
+  rds_instance_id         = module.rds.rds_instance_id
+  alb_arn_suffix          = module.alb.alb_arn_suffix
   target_group_arn_suffix = module.alb.target_group_arn_suffix
-  
+
   depends_on = [module.vpc, module.security_groups, module.alb, module.rds]
 }

@@ -143,6 +143,6 @@ variable "instance_class" {
 
 variable "email_for_sns" {
   description = "mail used fo the sns topic"
-  type = string
-  default = "w2ml74j64u@ruutukf.com"
+  type        = string
+  default     = "w2ml74j64u@ruutukf.com"
 }
