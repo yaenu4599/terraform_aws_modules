@@ -5,26 +5,15 @@
             "Sid": "AsgCreate",
             "Effect": "Allow",
             "Action": [
-                "ec2:DeleteLaunchTemplate"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "AsgCreateWRef",
-            "Effect": "Allow",
-            "Action": [
-                "autoscaling:AttachInstances",
-                "ec2:DeleteLaunchTemplateVersions",
-                "elasticloadbalancing:RegisterTargets",
-                "elasticloadbalancing:DeregisterTargets",
+                "ec2:RunInstances",
                 "ec2:CreateLaunchTemplate",
-                "ec2:CreateLaunchTemplateVersion",
-                "autoscaling:CreateAutoScalingGroup"
+                "autoscaling:CreateAutoScalingGroup",
+                "cloudwatch:PutMetricAlarm"
             ],
             "Resource": "*",
             "Condition": {
                 "StringEquals": {
-                    "aws:ResourceTag/ManagedBy": "terraform"
+                    "aws:RequestTag/ManagedBy": "terraform"
                 }
             }
         },
@@ -32,11 +21,19 @@
             "Sid": "AsgModifyOrDelete",
             "Effect": "Allow",
             "Action": [
+                "autoscaling:CreateAutoScalingGroup",
                 "ec2:RunInstances",
+                "autoscaling:PutScalingPolicy",
+                "cloudwatch:PutMetricAlarm",
+                "autoscaling:UpdateAutoScalingGroup",
+                "elasticloadbalancing:RegisterTargets",
+                "autoscaling:AttachInstances",
                 "ec2:TerminateInstances",
+                "ec2:DeleteLaunchTemplate",
+                "ec2:DeleteLaunchTemplateVersions",
                 "autoscaling:DeletePolicy",
                 "autoscaling:DeleteAutoScalingGroup",
-                "autoscaling:PutScalingPolicy"
+                "cloudwatch:DeleteAlarms"
             ],
             "Resource": "*",
             "Condition": {
@@ -49,16 +46,57 @@
             "Sid": "AsgDescribe",
             "Effect": "Allow",
             "Action": [
-                "autoscaling:DescribeInstanceRefreshes",
                 "ec2:DescribeLaunchTemplates",
                 "ec2:DescribeLaunchTemplateVersions",
+                "autoscaling:DescribeInstanceRefreshes",
                 "autoscaling:DescribeAutoScalingGroups",
                 "autoscaling:DescribeAutoScalingInstances",
                 "autoscaling:DescribePolicies",
                 "autoscaling:DescribeTerminationPolicyTypes",
-                "autoscaling:DescribeScalingActivities"
+                "autoscaling:DescribeScalingActivities",
+                "cloudwatch:DescribeAlarms",
+                "cloudwatch:ListTagsForResource"
             ],
             "Resource": "*"
+        },
+        {
+            "Sid": "LaunchTemplateAmi",
+            "Effect": "Allow",
+            "Action": "ec2:RunInstances",
+            "Resource": "arn:aws:ec2:*::image/*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:Owner": "amazon"
+                }
+            }
+        },
+        {
+            "Sid": "IamInstanceProfileLookup",
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetInstanceProfile",
+                "iam:GetRole"
+            ],
+            "Resource": [
+                "arn:aws:iam::556000333907:instance-profile/<your-role-here>",
+                "arn:aws:iam::556000333907:role/<your-role-here>"
+            ]
+        },
+        {
+            "Sid": "PassSsmRoleToEc2",
+            "Effect": "Allow",
+            "Action": [
+                "iam:PassRole"
+            ],
+            "Resource": [
+                "arn:aws:iam::556000333907:instance-profile/<your-role-here>",
+                "arn:aws:iam::556000333907:role/<your-role-here>"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "iam:PassedToService": "ec2.amazonaws.com"
+                }
+            }
         }
     ]
 }

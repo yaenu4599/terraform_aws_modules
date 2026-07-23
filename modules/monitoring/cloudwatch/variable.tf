@@ -21,27 +21,9 @@ variable "email_for_sns" {
   type        = string
 }
 
-variable "retention_in_days" {
-  description = "how long logs should be retained"
-  type        = number
-  default     = 0
-}
-
-variable "rds_storage_low_threshold" {
-  description = "if only x amount of storage is left the alarm gets triggered"
-  type        = number
-  default     = 5 * 1024 * 1024 * 1024 # if only 5GiB is left the alarm gets triggered
-}
-
 variable "rds_instance_id" {
   description = "instance id of the rds to monitor"
   type        = string
-}
-
-variable "rds_connections_threshold" {
-  description = "connections till the alarm gets triggered for db.t3.micro, change for other instance"
-  type        = number
-  default     = 40 # not tested yet but should be good for 1 GB Ram
 }
 
 variable "alb_arn_suffix" {
@@ -52,6 +34,28 @@ variable "alb_arn_suffix" {
 variable "target_group_arn_suffix" {
   description = "tg arn sufix for the alarm metric"
   type        = string
+}
+
+# =============================================================================
+# optional input
+# =============================================================================
+
+variable "retention_in_days" {
+  description = "how long logs should be retained in days"
+  type        = number
+  default     = 0
+}
+
+variable "rds_storage_low_threshold" {
+  description = "if only x amount of storage is left the alarm gets triggered"
+  type        = number
+  default     = 5 * 1024 * 1024 * 1024 # if only 5GiB is left the alarm gets triggered
+}
+
+variable "rds_connections_threshold" {
+  description = "connections till the alarm gets triggered for db.t3.micro, change for other instance"
+  type        = number
+  default     = 40 # not tested yet but should be good for 1 GB Ram
 }
 
 variable "alb_5xx_threshold" {

@@ -5,7 +5,7 @@
 variable "environment" {
   description = "Variable used for tagging"
   type        = string
-  default     = "test"
+  default     = "dev"
 }
 
 variable "managedby" {
@@ -84,13 +84,13 @@ variable "ami_id" {
 variable "max_size" {
   description = "asg instance limit"
   type        = number
-  default     = 3
+  default     = 2
 }
 
 variable "min_size" {
   description = "asg min instance amount"
   type        = number
-  default     = 1
+  default     = 2
 }
 
 variable "desired_capacity" {
@@ -144,5 +144,5 @@ variable "instance_class" {
 variable "email_for_sns" {
   description = "mail used fo the sns topic"
   type        = string
-  default     = "w2ml74j64u@ruutukf.com"
+  default     = "<your-email-here>"
 }

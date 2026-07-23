@@ -1,5 +1,24 @@
 data "aws_iam_instance_profile" "ssm_s3_profile" {
-  name = "Ec2TestRole" #add your own role name here
+  name = secrets.AWS_INSTACE_ROLE #add your own role name here
+}
+
+data "aws_ami" "ami_id" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+
+  filter {
+    name = "virtualization-type"
+    values = ["hvm"]
+  }
+  filter {
+    name = "root-device-type"
+    values = ["ebs"]
+  }
 }
 
 resource "aws_autoscaling_group" "main" {
@@ -101,7 +120,7 @@ resource "aws_cloudwatch_metric_alarm" "low_cpu" {
 
 resource "aws_launch_template" "main" {
   name          = "${var.environment}-instance"
-  image_id      = var.ami_asg_id
+  image_id      = data.aws_ami.ami_id
   instance_type = var.instance_type
 
   iam_instance_profile {

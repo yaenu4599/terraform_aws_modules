@@ -24,6 +24,7 @@ creats:
 #### permissions
 
 To use this module attache this policy [/docs/example](/docs/example) to your terraform iam user.
+Or assing it to a role and use it in your github actions with OICD.
 
 > **Note:** Make sure that your Managedby variable is either "terraform" or you change that each permission uses the custom tag defined in Managedby, else it will not work.
 
@@ -43,7 +44,7 @@ none
 
 | name | type | description |
 |------|------|-------------|
-| local.common_tags | `map(string)` | keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions | 
+| common_tags | `map(string)` | keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions | 
 | environment | `string` | for overview and naming | 
 
 ```hcl

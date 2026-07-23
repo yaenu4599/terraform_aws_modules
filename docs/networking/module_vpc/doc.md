@@ -4,16 +4,16 @@ creats:
 vpc
 subnet/s
 internet gateway
-nat gateway
-route
-routetable
+nat gateway/s
+routes
+routetable/s
 vpc endpoint for s3
 
 ---
 
 Creates a vpc setup with public and private subnets across multiple azs(optionally). 
 
-For each cidr provided in `var.subnet_public_cidrs` and `var.subnet_private_cidrs`, one public and one private subnet will be created, up to the number of azs defined in var.azs — whichever is fewer.
+For each cidr provided in `var.subnet_public_cidrs` and `var.subnet_private_cidrs`, one public and one private subnet will be created, up to the number of azs defined in var.azs — whichever is fewer. Per az max one public and private subnet.
 
 Each private subnet gets its own nat gateway (deployed in the corresponding public subnet) and an associated route table that routes outbound traffic through it, so ever private subnets needs an public subnet where the nat gets deployed.
 
@@ -25,7 +25,7 @@ Both public and private subnets have access to an vpc gateway endpoint for s3.
 
 ```hcl
 module "vpc" {
-  source               = "./modules/vpc"
+  source               = "./modules/networking/vpc"
 
   common_tags          = local.common_tags
   environment          = var.environment
@@ -50,6 +50,7 @@ none
 #### permissions
 
 To use this module attache this policy [/docs/networking/module_vpc/TerraformModuleVpc.json](/docs/networking/module_vpc/TerraformModuleVpc.json) to your terraform iam user.
+Or assing it to a role and use it in your github actions with OICD.
 
 > **Note:** Make sure that your Managedby variable is either "terraform" or you change that each permission uses the custom tag defined in Managedby, else it will not work.
 
@@ -77,7 +78,7 @@ subnet_private_cidrs = ["10.0.4.0/24", "10.0.5.0/24""]
 
 | name | type | description |
 |------|------|-------------|
-| local.common_tags | `map(string)` | keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions | 
+| common_tags | `map(string)` | keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions | 
 | environment | `string` | for overview and naming | 
 
 ```hcl

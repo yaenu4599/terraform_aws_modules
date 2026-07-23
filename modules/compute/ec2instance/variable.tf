@@ -21,11 +21,6 @@ variable "instance_type" {
   type        = string
 }
 
-variable "ami_id" {
-  description = "wich ami should be used"
-  type        = string
-}
-
 variable "subnet_ids" {
   description = "subnet id or ids, either public or private subnets"
   type        = list(string)

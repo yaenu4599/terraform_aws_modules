@@ -68,26 +68,6 @@ resource "aws_cloudwatch_metric_alarm" "rds_high_connections_rate" {
   })
 }
 
-resource "aws_cloudwatch_metric_alarm" "alb_unhealty_instances" {
-  alarm_name          = "${var.environment}-alb-unhealty-instances"
-  comparison_operator = "GreaterThanThreshold"
-  evaluation_periods  = 2
-  metric_name         = "HealthyHostCount"
-  namespace           = "AWS/ApplicationELB"
-  period              = 60
-  statistic           = "Average"
-  threshold           = 0
-  alarm_actions       = [aws_sns_topic.alarm.arn]
-  dimensions = {
-    TargetGroup  = var.target_group_arn_suffix
-    LoadBalancer = var.alb_arn_suffix
-  }
-
-  tags = merge(var.common_tags, {
-    Name = "${var.environment}-alb-unhealty-instances"
-  })
-}
-
 resource "aws_cloudwatch_metric_alarm" "alb_5xx_errors" {
   alarm_name          = "${var.environment}-alb-5xx-erorrs"
   comparison_operator = "GreaterThanThreshold"

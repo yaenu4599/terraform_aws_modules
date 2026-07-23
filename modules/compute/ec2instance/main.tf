@@ -1,5 +1,24 @@
 data "aws_iam_instance_profile" "ssm_s3_profile" {
-  name = "Ec2TestRole"
+  name = secrets.AWS_INSTACE_ROLE #add your own role name here
+}
+
+data "aws_ami" "ami_id" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+
+  filter {
+    name = "virtualization-type"
+    values = ["hvm"]
+  }
+  filter {
+    name = "root-device-type"
+    values = ["ebs"]
+  }
 }
 
 /*
@@ -23,7 +42,7 @@ resource "aws_network_interface" "main" {
 
 resource "aws_instance" "main" {
   count                = length(var.subnet_ids)
-  ami                  = var.ami_id
+  ami                  = data.aws_ami.ami_id
   instance_type        = var.instance_type
   iam_instance_profile = data.aws_iam_instance_profile.ssm_s3_profile.name
   # key_name           = aws_key_pair.main.key_name

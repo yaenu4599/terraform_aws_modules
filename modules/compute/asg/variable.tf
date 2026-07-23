@@ -49,11 +49,6 @@ variable "instance_type" {
   type        = string
 }
 
-variable "ami_asg_id" {
-  description = "ami id to create the instance"
-  type        = string
-}
-
 variable "security_group_id" {
   description = "sg to assaign to the albs"
   type        = list(string)

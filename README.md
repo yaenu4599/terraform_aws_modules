@@ -14,6 +14,7 @@ Reusable Terraform local modules for AWS infrastructure. Made to be able to add 
 | [rds](./docs/storage/module_rds/doc.md) | [./modules/storage/rds/](./modules/storage/rds/) | creates a rds instance |
 | [security groups](./docs/security/module_security_groups/doc.md) | [./modules/security/security_groups/](./modules/security/security_groups/) | a public and private security group |
 | [secrets_manager](./docs/security/module_secrets_manager/doc.md) | [./modules/security/secrets_manager/](./modules/security/secrets_manager/) | used to store the rds credentials also creates the credentials so that the rds module can querry them |
+| [cloudwatch](./docs/monitoring/cloudwatch/doc.md) | [./modules/monitoring/cloudwatch/](./modules/monitoring/cloudwatch/) | creates an sns topic with an email subscription to get alarm notification, creates 3 alarms, 2 for rds and 1 for the alb |
 
 
 ### version 

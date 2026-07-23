@@ -19,15 +19,17 @@ The rds mysql security group allows the port 3306(MySQL DB) and references the p
 
 ```hcl
 module "security_groups" {
-  source      = "./modules/security_groups"
-  
+  source = "./modules/security/security_groups"
+
   common_tags = local.common_tags
   environment = var.environment
 
-  vpc_id      = module.vpc.vpc_id
+  vpc_id = module.vpc.vpc_id
 
-  allow_ssh   = var.ssh_allowed_cidrs
+  #needed when using -target
+  depends_on = [module.vpc]  
 }
+
 ```
 
 
@@ -43,6 +45,7 @@ module "security_groups" {
 #### permissions
 
 To use this module attache this policy [/docs/security/module_security_groups/TerraformModuleSg.json](/docs/security/module_security_groups/TerraformModuleSg.json) to your terraform iam user.
+Or assing it to a role and use it in your github actions with OICD.
 
 > **Note:** Make sure that your Managedby variable is either "terraform" or you change that each permission uses the custom tag defined in Managedby, else it will not work.
 

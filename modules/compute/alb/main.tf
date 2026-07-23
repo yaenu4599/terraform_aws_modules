@@ -17,8 +17,7 @@ resource "aws_lb" "main" {
   tags = merge (var.common_tags, 
   {
     Name = "${var.environment}-main-alb"
-  }
-  )
+  })
 }
 
 resource "aws_lb_listener" "main-http" {
@@ -50,8 +49,7 @@ resource "aws_lb_target_group" "main" {
   tags = merge( var.common_tags,
   {
     Name = "${var.environment}-main-tg"
-  }
-  )
+  })
 }
 
 

@@ -5,7 +5,7 @@ rds instance
 
 ---
 
-Final snapshot and multi az is turned off, for cost saving but can easly be turned on via variables.
+Final snapshot and multi az is turned off, for cost saving but can easly be turned on via variable.
 
 The secrets manager module creates the credentials and stores them so the rds module just has to querry them.
 
@@ -13,7 +13,7 @@ The secrets manager module creates the credentials and stores them so the rds mo
 
 ```hcl
 module "rds" {
-  source = "./modules/rds"
+  source = "./modules/storage/rds"
 
   common_tags = local.common_tags
   environment = var.environment
@@ -23,10 +23,10 @@ module "rds" {
   subnet_ids          = module.vpc.subnets_private_ids
   security_groups_ids = [module.security_groups.security_group_rds_rds_mysql_id]
   secret_id           = module.secrets_manager.secrets_creation_id
-
   skip_final_snapshot = true
 
-  depends_on = [module.secrets_manager]
+  #secrets_manager is needed the others are for -target
+  depends_on = [module.secrets_manager, module.vpc, module.security_groups]
 }
 ```
 
@@ -43,6 +43,7 @@ module "rds" {
 #### permissions
 
 To use this module attache this policy [/docs/storage/module_rds/TerraformModuleRds.json](/docs/storage/module_rds/TerraformModuleRds.json) to your terraform iam user.
+Or assing it to a role and use it in your github actions with OICD.
 
 > **Note:** Make sure that your Managedby variable is either "terraform" or you change that each permission uses the custom tag defined in Managedby, else it will not work.
 
@@ -67,7 +68,7 @@ instance_class    = "db.t3.micro"
 
 | name | type | description |
 |------|------|-------------|
-| local.common_tags | `map(string)` | keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions | 
+| common_tags | `map(string)` | keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions | 
 | environment | `string` | for overview and naming | 
 
 ```hcl
@@ -145,4 +146,6 @@ variable "skip_final_snapshot" {
 
 ### outputs
 
-none
+| name | description |
+|------|-------------|
+| rds_instance_id | usded to reference the rds instance in other |
