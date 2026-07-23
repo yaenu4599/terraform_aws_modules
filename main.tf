@@ -85,7 +85,7 @@ module "alb" {
   subnet_ids        = [module.vpc.subnets_public_ids[0], module.vpc.subnets_public_ids[1]]
 
   #needed when using -target
-  depends_on = [module.vpc, module.security_groups, module.asg]
+  depends_on = [module.vpc, module.security_groups]
 }
 
 module "asg" {

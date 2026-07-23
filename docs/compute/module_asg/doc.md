@@ -32,7 +32,7 @@ module "asg" {
   security_group_id = [module.security_groups.security_group_private_id]
 
   #needed when using -target
-  depends_on = [module.vpc, module.security_groups, module.alb]
+  depends_on = [module.vpc, module.security_groups]
 }
 ```
 
