@@ -1,5 +1,5 @@
 data "aws_iam_instance_profile" "ssm_s3_profile" {
-  name = secrets.AWS_INSTACE_ROLE #add your own role name here
+  name = "${secrets.AWS_INSTACE_ROLE}" #add your own role name here
 }
 
 data "aws_ami" "ami_id" {
