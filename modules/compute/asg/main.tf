@@ -120,7 +120,7 @@ resource "aws_cloudwatch_metric_alarm" "low_cpu" {
 
 resource "aws_launch_template" "main" {
   name          = "${var.environment}-instance"
-  image_id      = data.aws_ami.ami_id
+  image_id      = data.aws_ami.ami_id.id
   instance_type = var.instance_type
 
   iam_instance_profile {

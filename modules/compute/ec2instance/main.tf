@@ -42,7 +42,7 @@ resource "aws_network_interface" "main" {
 
 resource "aws_instance" "main" {
   count                = length(var.subnet_ids)
-  ami                  = data.aws_ami.ami_id
+  ami                  = data.aws_ami.ami_id.id
   instance_type        = var.instance_type
   iam_instance_profile = data.aws_iam_instance_profile.ssm_s3_profile.name
   # key_name           = aws_key_pair.main.key_name
