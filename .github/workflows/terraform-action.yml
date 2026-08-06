@@ -41,7 +41,7 @@ jobs:
 
       - name: Terraform Apply
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'apply'
-        run: terraform apply -auto-approve
+        run: terraform apply -target=module.ec2instance -auto-approve
 
       - name: Terraform Destroy
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'destroy'
