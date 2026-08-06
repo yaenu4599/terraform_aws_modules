@@ -37,7 +37,7 @@ jobs:
 
       - name: Terraform Plan
         if: github.event_name != 'workflow_dispatch' || github.event.inputs.actions == 'plan'
-        run: terraform  plan 
+        run: terraform  plan -target=module.ec2instance
 
       - name: Terraform Apply
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'apply'
@@ -45,5 +45,5 @@ jobs:
 
       - name: Terraform Destroy
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.actions == 'destroy'
-        run: terraform destroy -auto-approve
+        run: terraform destroy -target=module.ec2instance -auto-approve
         
