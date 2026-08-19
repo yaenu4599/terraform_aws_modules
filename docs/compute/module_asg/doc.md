@@ -9,15 +9,16 @@ Target Group
 
 Basic Auto Scaling Group using the Target Group to be Availabile to The Application Load Balancer.
 
-Scale out and Scale in does not to anything yet, add a basic Target Tracking Scaling Policy if needed, plans are to add it together with the CloudWatch module.
+Scale out and Scale in with cloudwatch  using the CPUUtilisation metric.
+Currently has min, desired and max capacity at 2, change the variables or tfvars to test it.
 
-Currently has min and desired capacity at 2 and max at 3.
+Pulls the current amazon 2023 ami (x86_64)(via data block) and is supported till 2029 [source](https://docs.aws.amazon.com/linux/al2023/ug/release-cadence.html).
 
 ### usage
 
 ```hcl
 module "asg" {
-  source = "./modules/asg"
+  source = "./modules/compute/asg"
 
   common_tags       = local.common_tags
   environment       = var.environment
@@ -28,8 +29,10 @@ module "asg" {
   min_size          = var.min_size
   desired_capacity  = var.desired_capacity
   instance_type     = var.instance_type_asg
-  ami_id            = var.ami_asg_id
   security_group_id = [module.security_groups.security_group_private_id]
+
+  #needed when using -target
+  depends_on = [module.vpc, module.security_groups]
 }
 ```
 
@@ -39,13 +42,14 @@ module "asg" {
 
 |modules | folder | description | 
 |--------|--------|-------------|
-| [vpc](/docs/networking/module_vpc/doc.md) | [/modules/vpc/)](/modules/vpc/) | network to deploy the asg in |
-| [security groups](/docs/security/module_security_groups/doc.md) | [/modules/security_groups/](/modules/security_groups/) | sg because it required and also to control acess |
-| [alb](/docs/compute/module_alb/) | [/modules/alb/](/modules/alb/) | its made to be used with the lb, can be used without but the tg arn has to be removed |
+| [vpc](/docs/networking/module_vpc/doc.md) | [/modules/networking/vpc/)](/modules/networking/vpc/) | network to deploy the asg in |
+| [security groups](/docs/security/module_security_groups/doc.md) | [/modules/security/security_groups/](/modules/security/security_groups/) | sg because it required and also to control acess |
+| [alb](/docs/compute/module_alb/) | [/modules/compute/alb/](/modules/compute/alb/) | its made to be used with the lb, can be used without but the tg arn has to be removed |
 
 #### permissions
 
 To use this module attache this policy [/docs/compute/module_asg/TerraformModuleAsg.json](/docs/compute/module_asg/TerraformModuleAsg.json) to your terraform iam user.
+Or assing it to a role and use it in your github actions with OICD.
 
 > **Note:** Make sure that your Managedby variable is either "terraform" or you change that each permission uses the custom tag defined in Managedby, else it will not work.
 
@@ -60,11 +64,10 @@ none
 # module.asg
 # =============================================================================
 
-max_size          = 3
+max_size          = 2
 min_size          = 2
 desired_capacity  = 2
 instance_type_asg = "t3.micro"
-ami_asg_id        = "ami-08bdb1495db49a7f9"+
 ```
 
 ### inputs
@@ -73,7 +76,7 @@ ami_asg_id        = "ami-08bdb1495db49a7f9"+
 
 | name | type | description |
 |------|------|-------------|
-| local.common_tags | `map(string)` | keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions | 
+| common_tags | `map(string)` | keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions | 
 | environment | `string` | for overview and naming | 
 
 ```hcl
@@ -100,7 +103,6 @@ variable "managedby" {
 | min_size | `number` | min instances asg can maintain |
 | desired_capacity | `number` | desired capacity |
 | instance_type | `string` | instance_type asg should use for deployment |
-| ami_asg_id | `string` | ami asg should use do deploy instances |
 | security_group_id | `list(string)` | public sg for the alb |
 
 ```hcl
@@ -137,11 +139,6 @@ variable "instance_type" {
   type        = string
 }
 
-variable "ami_asg_id" {
-  description = "ami id to create the instance"
-  type        = string
-}
-
 variable "security_group_id" {
   description = "sg to assaign to the albs"
   type        = list(string)
@@ -149,8 +146,6 @@ variable "security_group_id" {
 ```
 
  #### optional
-
- none
 
 ### outputs
 

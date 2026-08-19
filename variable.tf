@@ -5,7 +5,7 @@
 variable "environment" {
   description = "Variable used for tagging"
   type        = string
-  default     = "test"
+  default     = "dev"
 }
 
 variable "managedby" {
@@ -135,4 +135,14 @@ variable "instance_class" {
   description = "instance class of the rds"
   type        = string
   default     = "db.t3.micro"
+}
+
+# =============================================================================
+# module.cloudwatch
+# ============================================================================
+
+variable "email_for_sns" {
+  description = "mail used fo the sns topic"
+  type        = string
+  default     = "<your-email-here>"
 }

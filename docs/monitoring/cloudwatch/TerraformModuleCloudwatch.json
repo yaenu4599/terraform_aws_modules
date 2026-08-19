@@ -71,8 +71,8 @@
                 "iam:GetRole"
             ],
             "Resource": [
-                "arn:aws:iam::556000333907:instance-profile/<your-role-here>",
-                "arn:aws:iam::556000333907:role/<your-role-here>"
+                "arn:aws:iam::556000333907:instance-profile/Ec2TestRole",
+                "arn:aws:iam::556000333907:role/Ec2TestRole"
             ]
         },
         {
@@ -82,8 +82,8 @@
                 "iam:PassRole"
             ],
             "Resource": [
-                "arn:aws:iam::556000333907:instance-profile/<your-role-here>",
-                "arn:aws:iam::556000333907:role/<your-role-here>"
+                "arn:aws:iam::556000333907:instance-profile/Ec2TestRole",
+                "arn:aws:iam::556000333907:role/Ec2TestRole"
             ],
             "Condition": {
                 "StringEquals": {

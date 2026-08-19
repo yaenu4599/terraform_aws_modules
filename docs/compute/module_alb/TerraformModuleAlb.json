@@ -2,34 +2,42 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "ElbCreate",
+            "Sid": "AlbCreate",
+            "Effect": "Allow",
+            "Action": [
+                "elasticloadbalancing:CreateLoadBalancer",
+                "elasticloadbalancing:CreateListener",
+                "elasticloadbalancing:CreateTargetGroup"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestTag/ManagedBy": "terraform"
+                }
+            }
+        },
+        {
+            "Sid": "AlbModifyOrDelete",
             "Effect": "Allow",
             "Action": [
                 "elasticloadbalancing:CreateLoadBalancer",
                 "elasticloadbalancing:CreateLoadBalancerListeners",
                 "elasticloadbalancing:CreateLoadBalancerPolicy",
-                "elasticloadbalancing:DeleteListener",
-                "elasticloadbalancing:ModifyListener",
-                "elasticloadbalancing:DeleteTargetGroup",
+                "elasticloadbalancing:CreateListener",
                 "elasticloadbalancing:CreateTargetGroup",
-                "elasticloadbalancing:CreateListener"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "ElbModifyOrDelete",
-            "Effect": "Allow",
-            "Action": [
                 "elasticloadbalancing:ModifyLoadBalancerAttributes",
-                "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+                "elasticloadbalancing:ModifyTargetGroupAttributes",
+                "elasticloadbalancing:ModifyTargetGroup",
+                "elasticloadbalancing:ModifyListener",
+                "elasticloadbalancing:AddTags",
                 "elasticloadbalancing:AttachLoadBalancerToSubnets",
+                "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+                "elasticloadbalancing:DeleteListener",
+                "elasticloadbalancing:DetachLoadBalancerFromSubnets",
+                "elasticloadbalancing:RemoveTags",
                 "elasticloadbalancing:DeleteLoadBalancer",
                 "elasticloadbalancing:DeleteLoadBalancerPolicy",
-                "elasticloadbalancing:DetachLoadBalancerFromSubnets",
-                "elasticloadbalancing:AddTags",
-                "elasticloadbalancing:RemoveTags",
-                "elasticloadbalancing:ModifyTargetGroupAttributes",
-                "elasticloadbalancing:ModifyTargetGroup"
+                "elasticloadbalancing:DeleteTargetGroup"
             ],
             "Resource": "*",
             "Condition": {
@@ -39,7 +47,7 @@
             }
         },
         {
-            "Sid": "ElbDescribe",
+            "Sid": "AlbDescribe",
             "Effect": "Allow",
             "Action": [
                 "elasticloadbalancing:DescribeLoadBalancers",

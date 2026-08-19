@@ -1,5 +1,5 @@
 # =============================================================================
-# tag
+# tags
 # =============================================================================
 
 locals {
@@ -17,7 +17,7 @@ locals {
 # =============================================================================
 
 module "vpc" {
-  source = "./modules/vpc"
+  source = "./modules/networking/vpc"
 
   common_tags = local.common_tags
   environment = var.environment
@@ -33,45 +33,63 @@ module "vpc" {
 # =============================================================================
 
 module "security_groups" {
-  source = "./modules/security_groups"
+  source = "./modules/security/security_groups"
 
   common_tags = local.common_tags
   environment = var.environment
 
   vpc_id = module.vpc.vpc_id
+
+  #needed when using -target
+  depends_on = [module.vpc]  
 }
 
 module "secrets_manager" {
-  source = "./modules/secrets_manager"
+  source = "./modules/security/secrets_manager"
 
   common_tags = local.common_tags
   environment = var.environment
+
+  #needed when using -target
+  depends_on = [module.vpc]
 }
 
 # =============================================================================
 # compute
 # =============================================================================
 
-/* #asg creates the needed instances, only needed for single instances
-
 module "ec2instance" {
-  source      = "./modules/ec2instance"
+  source = "./modules/compute/ec2instance"
 
   common_tags = local.common_tags
   environment = var.environment
 
   instance_type       = var.instance_type
-  ami_id              = var.ami_id
   subnet_ids          = module.vpc.subnets_private_ids
-  security_group_ids   = [module.security_groups.security_group_private_id]
-
+  security_group_ids  = [module.security_groups.security_group_private_id]
   associate_public_ip = false
   #public_key         = var.public_key
+
+  #needed when using -target
+  depends_on = [module.vpc, module.security_groups]
 }
-*/
+
+module "alb" {
+  source = "./modules/compute/alb"
+
+  common_tags = local.common_tags
+  environment = var.environment
+
+  vpc_id            = module.vpc.vpc_id
+  security_group_id = [module.security_groups.security_group_public_id]
+  subnet_ids        = [module.vpc.subnets_public_ids[0], module.vpc.subnets_public_ids[1]]
+
+  #needed when using -target
+  depends_on = [module.vpc, module.security_groups]
+}
 
 module "asg" {
-  source = "./modules/asg"
+  source = "./modules/compute/asg"
 
   common_tags = local.common_tags
   environment = var.environment
@@ -82,19 +100,10 @@ module "asg" {
   min_size          = var.min_size
   desired_capacity  = var.desired_capacity
   instance_type     = var.instance_type_asg
-  ami_asg_id        = var.ami_asg_id
   security_group_id = [module.security_groups.security_group_private_id]
-}
 
-module "alb" {
-  source = "./modules/alb"
-
-  common_tags = local.common_tags
-  environment = var.environment
-
-  vpc_id            = module.vpc.vpc_id
-  security_group_id = [module.security_groups.security_group_public_id]
-  subnet_ids        = [module.vpc.subnets_public_ids[0], module.vpc.subnets_public_ids[1]]
+  #needed when using -target
+  depends_on = [module.vpc, module.security_groups]
 }
 
 # =============================================================================
@@ -103,7 +112,7 @@ module "alb" {
 
 
 module "s3" {
-  source = "./modules/s3"
+  source = "./modules/storage/s3"
 
   common_tags = local.common_tags
   environment = var.environment
@@ -112,7 +121,7 @@ module "s3" {
 }
 
 module "rds" {
-  source = "./modules/rds"
+  source = "./modules/storage/rds"
 
   common_tags = local.common_tags
   environment = var.environment
@@ -122,8 +131,27 @@ module "rds" {
   subnet_ids          = module.vpc.subnets_private_ids
   security_groups_ids = [module.security_groups.security_group_rds_rds_mysql_id]
   secret_id           = module.secrets_manager.secrets_creation_id
-
   skip_final_snapshot = true
 
-  depends_on = [module.secrets_manager]
+  #secrets_manager is needed the others are for -target
+  depends_on = [module.secrets_manager, module.vpc, module.security_groups]
+}
+
+# =============================================================================
+# monitoring
+# =============================================================================
+
+module "cloudwatch" {
+  source = "./modules/monitoring/cloudwatch"
+
+  common_tags = local.common_tags
+  environment = var.environment
+
+  email_for_sns           = var.email_for_sns
+  rds_instance_id         = module.rds.rds_instance_id
+  alb_arn_suffix          = module.alb.alb_arn_suffix
+  target_group_arn_suffix = module.alb.target_group_arn_suffix
+  
+  #needed when using -target
+  depends_on = [module.vpc, module.security_groups, module.alb, module.asg, module.rds]
 }

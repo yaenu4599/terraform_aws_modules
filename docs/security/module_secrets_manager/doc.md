@@ -11,7 +11,7 @@ Only holds one rds credential keypair.
 
 ```hcl
 module "secrets_manager" {
-  source = "./modules/secrets_manager"
+  source = "./modules/security/secrets_manager"
 
   common_tags = local.common_tags
   environment = var.environment
@@ -24,11 +24,12 @@ module "secrets_manager" {
 
 |modules | folder | description | 
 |--------|--------|-------------|
-| [rds](/docs/storage/module_rds/doc.md) | [/modules/rds/](/modules/rds/) | requried because its made to be used with the rds module |
+| [rds](/docs/storage/module_rds/doc.md) | [/modules/storage/rds/](/modules/storage/rds/) | requried because its made to be used with the rds module |
 
 #### permissions
 
 To use this module attache this policy [/docs/security/module_secrets_manager/TerraformModuleSecretsManager.json](/docs/security/module_secrets_manager/TerraformModuleSecretsManager.json) to your terraform iam user.
+Or assing it to a role and use it in your github actions with OICD.
 
 > **Note:** Make sure that your Managedby variable is either "terraform" or you change that each permission uses the custom tag defined in Managedby, else it will not work.
 
@@ -46,7 +47,7 @@ none
 
 | name | type | description |
 |------|------|-------------|
-| local.common_tags | `map(string)` | keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions | 
+| common_tags | `map(string)` | keypairs for tagging, has the ManagedBy tag that helps limit terraform perimissions | 
 | environment | `string` | for overview and naming | 
 
 ```hcl
